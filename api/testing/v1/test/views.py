@@ -13,9 +13,6 @@ class ListView(LoggerMixinView, FilterMixin, ListBulkCreateUpdateDestroyAPIView)
     queryset = models.Test.objects.all()
     serializer_class = serializers.TestBulkSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
 
 class SingleView(LoggerMixinView, RetrieveUpdateDestroyAPIView):
     queryset = models.Test.objects.all()
