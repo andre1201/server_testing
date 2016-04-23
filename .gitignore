@@ -1,4 +1,4 @@
 *.pyc
 .idea
 media/
-server/local_settings.py
+project_config/local_settings.py

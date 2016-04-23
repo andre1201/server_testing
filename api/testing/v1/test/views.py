@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
-from rest_framework.viewsets import ModelViewSet
 from rest_framework_bulk import ListBulkCreateUpdateDestroyAPIView
 
 from commons.mixins import FilterMixin
@@ -11,10 +10,13 @@ from . import serializers
 
 
 class ListView(FilterMixin, ListBulkCreateUpdateDestroyAPIView):
-    queryset = models.Question.objects.all()
-    serializer_class = serializers.QuestionBulkSerializer
+    queryset = models.Test.objects.all()
+    serializer_class = serializers.TestBulkSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class SingleView(RetrieveUpdateDestroyAPIView):
-    queryset = models.Question.objects.all()
-    serializer_class = serializers.QuestionSerializer
+    queryset = models.Test.objects.all()
+    serializer_class = serializers.TestSerializer
