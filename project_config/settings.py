@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from commons.config_checker import IsDevelop, IsProduction
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -23,9 +25,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n=l9$8ts&(!r*=k6t5z^6ikuc_yg%_6r_hnlxw-zkj^c2wbmgj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -73,9 +72,7 @@ REST_FRAMEWORK = {
     ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'TEST_REQUEST_RENDERER_CLASSES': (
-       # 'rest_framework.renderers.MultiPartRenderer',
         'rest_framework.renderers.JSONRenderer',
-        #'rest_framework.renderers.TemplateHTMLRenderer'
     )
 }
 
@@ -103,35 +100,6 @@ WSGI_APPLICATION = 'project_config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testing',
-        'USER': 'andre',
-        'PASSWORD': '0200921',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 
 # Internationalization
@@ -152,3 +120,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+if IsProduction().check():
+    from .production_settings import *
+else:
+    from .developer_settings import *
+
+try:
+    from .local_settings import *
+except ImportError:
+        pass

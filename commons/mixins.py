@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.exceptions import FieldError
 
+from commons.decorators import json_logger
 from commons.exeptions import BadRequestError
 
 
@@ -24,3 +25,28 @@ class FilterMixin(object):
         except FieldError as e:
             raise BadRequestError("Не корректные параметры для фильтрации. " \
                                   "Описание ошибки:%s" % e.message)
+
+
+class LoggerMixinView(object):
+    """
+    Выводит данные в консоль
+    """
+    @json_logger
+    def post(self, request, *args, **kwargs):
+        return super(LoggerMixinView, self).post(request, *args, **kwargs)
+
+    @json_logger
+    def put(self, request, *args, **kwargs):
+        return super(LoggerMixinView, self).put(request, *args, **kwargs)
+
+    @json_logger
+    def get(self, request, *args, **kwargs):
+        return super(LoggerMixinView, self).get(request, *args, **kwargs)
+
+    @json_logger
+    def delete(self, request, *args, **kwargs):
+        return super(LoggerMixinView, self).delete(request, *args, **kwargs)
+
+    @json_logger
+    def patch(self, request, *args, **kwargs):
+        return super(LoggerMixinView, self).patch(request, *args, **kwargs)
