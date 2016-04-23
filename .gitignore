@@ -1,0 +1,4 @@
+*.pyc
+.idea
+media/
+server/local_settings.py
