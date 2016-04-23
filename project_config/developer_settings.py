@@ -29,7 +29,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'commons.decorators': {
+        'python_commons.decorators': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
